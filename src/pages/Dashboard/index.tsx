@@ -24,25 +24,25 @@ export function Dashboard() {
     setModalOpen(!modalOpen);
   }
 
-  async function handleAddFood(food: FoodProps) {
-    console.log("FOOD:", food);
-    
-    // try {
-    //   const { data } = await api.post('/foods', {
-    //     ...food,
-    //     available: true
-    //   });
+  async function handleAddFood(food: FoodProps) {    
+    try {
+      const { data } = await api.post('/foods', {
+        ...food,
+        available: true
+      });
 
-    //   setFoods([...foods, data]);
+      setFoods([...foods, data]);
 
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    } catch (err) {
+      console.log(err);
+    }
   }
   
   useEffect(() => {
     async function LoadingFoods() {
       const { data } = await api.get('/foods');
+      console.log(data);
+      
 
       setFoods(data);
     }
@@ -65,7 +65,7 @@ export function Dashboard() {
           handleUpdateFood={this.handleUpdateFood}
         /> */}
 
-        {/* <FoodsContainer data-testid="foods-list">
+        <FoodsContainer data-testid="foods-list">
           {foods &&
             foods.map(food => (
               <Food
@@ -75,7 +75,7 @@ export function Dashboard() {
                 // handleEditFood={this.handleEditFood}
               />
             ))}
-        </FoodsContainer> */}
+        </FoodsContainer>
       </>
   );
 }
