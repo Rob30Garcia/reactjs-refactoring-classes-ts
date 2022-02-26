@@ -6,23 +6,23 @@ import { Form } from './styles';
 import { Modal } from '../Modal';
 import { Input } from '../Input';
 
-interface ModalAddFoodProps {
-  isOpen: boolean;
-  setIsOpen: () => void;
-  handleAddFood: (data: FoodProps) => void;
-}
 
-interface FoodProps {
+interface FoodElementProps {
   name: string;
   description: string;
   price: string;
   image: string;
 }
+interface ModalAddFoodProps {
+  isOpen: boolean;
+  setIsOpen: () => void;
+  handleAddFood: (data: FoodElementProps) => void;
+}
 
 export function ModalAddFood({isOpen, setIsOpen, handleAddFood}: ModalAddFoodProps) {
   const formRef = useRef<FormHandles>(null);
 
-  function handleSubmit(data: FoodProps) {    
+  function handleSubmit(data: FoodElementProps) {    
     handleAddFood(data);
     setIsOpen();
   }

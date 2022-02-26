@@ -7,21 +7,21 @@ import { ModalAddFood } from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
 
-interface FoodProps {
+interface FoodElementProps {
   name: string;
   description: string;
   price: string;
   image: string;
 }
 
-interface Food extends FoodProps {
+interface FoodProps extends FoodElementProps {
   id: number;
   available: boolean;
 }
 
 export function Dashboard() {
-  const [foods, setFoods] = useState<Food[]>([]);
-  const [editingFood, setEditionfood] = useState<Food>({} as Food);
+  const [foods, setFoods] = useState<FoodProps[]>([]);
+  const [editingFood, setEditionfood] = useState<FoodProps>({} as FoodProps);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export function Dashboard() {
     setModalOpen(!modalOpen);
   }
 
-  async function handleAddFood(food: FoodProps) {    
+  async function handleAddFood(food: FoodElementProps) {    
     try {
       const { data } = await api.post('/foods', {
         ...food,
@@ -43,7 +43,7 @@ export function Dashboard() {
     }
   }
 
-  function handleEditFood(food: Food) {
+  function handleEditFood(food: FoodProps) {
     console.log(food);
     
     //setEditionfood(food);
