@@ -36,6 +36,14 @@ export function Input({name, icon: Icon,...rest}: InputProps) {
     setIsFilled(!!inputRef.current?.value);
   }, []);
 
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value',
+    });
+  }, [fieldName, registerField]);
+
   return (
     <Container isFilled={isFilled} isFocused={isFocused}>
       {Icon && <Icon size={20} />}
