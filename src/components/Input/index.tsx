@@ -21,8 +21,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export function Input({name, icon: Icon,...rest}: InputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [isFocused, setIsFocused] = useState<Boolean>(false);
-  const [isFilled, setIsFilled] = useState<Boolean>(false);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [isFilled, setIsFilled] = useState<boolean>(false);
 
   const { fieldName, defaultValue, registerField } = useField(name);
 
