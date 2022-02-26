@@ -44,11 +44,11 @@ export function Dashboard() {
   return (
     <>
         <Header openModal={toggleModal} />
-        {/* <ModalAddFood
+        <ModalAddFood
           isOpen={modalOpen}
           setIsOpen={toggleModal}
-          handleAddFood={handleAddFood}
-        /> */}
+          //handleAddFood={handleAddFood}
+        />
         {/* <ModalEditFood
           isOpen={editModalOpen}
           setIsOpen={this.toggleEditModal}
