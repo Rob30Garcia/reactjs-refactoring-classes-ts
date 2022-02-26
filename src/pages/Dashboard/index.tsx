@@ -3,9 +3,16 @@ import { useEffect, useState } from 'react';
 import { Header } from '../../components/Header';
 import api from '../../services/api';
 import Food from '../../components/Food';
-import ModalAddFood from '../../components/ModalAddFood';
+import { ModalAddFood } from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
+
+interface FoodProps {
+  name: string;
+  description: string;
+  price: string;
+  image: string;
+}
 
 export function Dashboard() {
   const [foods, setFoods] = useState<any[]>([]);
@@ -17,19 +24,21 @@ export function Dashboard() {
     setModalOpen(!modalOpen);
   }
 
-  // async function handleAddFood(food: any) {
-  //   try {
-  //     const { data } = await api.post('/foods', {
-  //       ...food,
-  //       available: true
-  //     });
+  async function handleAddFood(food: FoodProps) {
+    console.log("FOOD:", food);
+    
+    // try {
+    //   const { data } = await api.post('/foods', {
+    //     ...food,
+    //     available: true
+    //   });
 
-  //     setFoods([...foods, data]);
+    //   setFoods([...foods, data]);
 
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  }
   
   useEffect(() => {
     async function LoadingFoods() {
@@ -47,7 +56,7 @@ export function Dashboard() {
         <ModalAddFood
           isOpen={modalOpen}
           setIsOpen={toggleModal}
-          //handleAddFood={handleAddFood}
+          handleAddFood={handleAddFood}
         />
         {/* <ModalEditFood
           isOpen={editModalOpen}
