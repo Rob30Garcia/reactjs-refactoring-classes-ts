@@ -4,7 +4,7 @@ import { Header } from '../../components/Header';
 import api from '../../services/api';
 import { Food } from '../../components/Food';
 import { ModalAddFood } from '../../components/ModalAddFood';
-import ModalEditFood from '../../components/ModalEditFood';
+import { ModalEditFood } from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
 
 interface FoodElementProps {
@@ -43,10 +43,27 @@ export function Dashboard() {
     }
   }
 
+  async function handleUpdateFood(food: FoodProps) {
+    try {
+      const foodUpdated = await api.put(
+        `/foods/${editingFood.id}`,
+        { ...editingFood, ...food },
+      );
+
+      const foodsUpdated = foods.map(f =>
+        f.id !== foodUpdated.data.id ? f : foodUpdated.data,
+      );
+
+      setFoods(foodsUpdated);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   function handleEditFood(food: FoodProps) {
-    console.log(food);
-    
-    //setEditionfood(food);
+    setEditModalOpen(true);
+
+    setEditionfood(food);
   }
   
   async function handleDeleteFood(id: number) {
@@ -55,6 +72,10 @@ export function Dashboard() {
     const foodsFiltered = foods.filter(food => food.id !== id);
 
     setFoods(foodsFiltered);
+  }
+
+  function toggleEditModal() {
+    setEditModalOpen(!editModalOpen);
   }
 
   useEffect(() => {
@@ -75,12 +96,12 @@ export function Dashboard() {
           setIsOpen={toggleModal}
           handleAddFood={handleAddFood}
         />
-        {/* <ModalEditFood
+        <ModalEditFood
           isOpen={editModalOpen}
-          setIsOpen={this.toggleEditModal}
+          setIsOpen={toggleEditModal}
           editingFood={editingFood}
-          handleUpdateFood={this.handleUpdateFood}
-        /> */}
+          handleUpdateFood={handleUpdateFood}
+        />
 
         <FoodsContainer data-testid="foods-list">
           {foods &&
