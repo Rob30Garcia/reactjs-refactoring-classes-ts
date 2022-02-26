@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Header } from '../../components/Header';
 import api from '../../services/api';
-import Food from '../../components/Food';
+import { Food } from '../../components/Food';
 import { ModalAddFood } from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
@@ -14,9 +14,14 @@ interface FoodProps {
   image: string;
 }
 
+interface Food extends FoodProps {
+  id: number;
+  available: boolean;
+}
+
 export function Dashboard() {
-  const [foods, setFoods] = useState<any[]>([]);
-  const [editingFood, setEditionfood] = useState({});
+  const [foods, setFoods] = useState<Food[]>([]);
+  const [editingFood, setEditionfood] = useState<Food>({} as Food);
   const [modalOpen, setModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
 
@@ -37,12 +42,24 @@ export function Dashboard() {
       console.log(err);
     }
   }
+
+  function handleEditFood(food: Food) {
+    console.log(food);
+    
+    //setEditionfood(food);
+  }
   
+  async function handleDeleteFood(id: number) {
+    await api.delete(`/foods/${id}`);
+
+    const foodsFiltered = foods.filter(food => food.id !== id);
+
+    setFoods(foodsFiltered);
+  }
+
   useEffect(() => {
     async function LoadingFoods() {
-      const { data } = await api.get('/foods');
-      console.log(data);
-      
+      const { data } = await api.get('/foods');      
 
       setFoods(data);
     }
@@ -71,8 +88,8 @@ export function Dashboard() {
               <Food
                 key={food.id}
                 food={food}
-                // handleDelete={this.handleDeleteFood}
-                // handleEditFood={this.handleEditFood}
+                handleDelete={handleDeleteFood}
+                handleEditFood={handleEditFood}
               />
             ))}
         </FoodsContainer>
